@@ -16,7 +16,6 @@ import Coverage from "@/components/home/Coverage";
 import Reviews from "@/components/home/Reviews";
 import Gallery from "@/components/home/Gallery";
 import Contact from "@/components/home/Contact";
-import Connect from "@/components/home/Connect";
 
 /**
  * The homepage, in the live site's order. Night and paper sheets alternate,
@@ -41,7 +40,6 @@ export default function Home() {
         <Reviews />
         <Gallery />
         <Contact />
-        <Connect />
       </main>
       <SiteFooter />
       <ArcParallax />

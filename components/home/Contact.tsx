@@ -4,6 +4,7 @@ import ArcBg from "@/components/site/ArcBg";
 import CopyButton from "@/components/site/CopyButton";
 import { Pin } from "@/components/site/Icons";
 import AppointmentForm from "./AppointmentForm";
+import Connect from "./Connect";
 
 /**
  * Contact (paper; Blueprint's Contact layout in the client's own words): the
@@ -14,7 +15,7 @@ export default function Contact() {
   return (
     <section className="sheet paper arc contact-sec" id={contact.id} data-sheet={contact.id} data-tone="paper" aria-labelledby="contact-title">
       <ArcBg />
-      <div className="wrap">
+      <div className="wrap" data-parallax>
         <div className="contact">
           <div>
             <h2 className="h-xl" id="contact-title" data-reveal="lines">{contact.heading}</h2>
@@ -67,6 +68,7 @@ export default function Contact() {
             </div>
           </div>
         </div>
+        <Connect />
       </div>
     </section>
   );

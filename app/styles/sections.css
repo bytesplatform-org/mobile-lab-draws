@@ -224,7 +224,7 @@ html.motion .aff-dupe { display: flex; }
 @media (max-width: 560px) { .appt { padding: 20px; } .appt .f2 { grid-template-columns: minmax(0, 1fr); } .map-card { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- CONNECT + SIGN-UP ---------- */
-.connect { padding-top: 0; }
+.connect { margin-top: var(--sheet-pad); }
 .cn-social { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px 48px; padding-top: 48px; border-top: 1.5px solid var(--ink); }
 .cn-social ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 12px 40px; }
 .cn-social a {

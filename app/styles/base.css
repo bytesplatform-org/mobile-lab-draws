@@ -188,6 +188,8 @@ section { position: relative; }
 .arc-bg svg { position: absolute; left: 0; top: 0; display: block; width: 100%; height: var(--arc-depth); fill: var(--arc-fill); }
 .arc-bg::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; top: calc(var(--arc-depth) - 1px); background: var(--arc-fill); }
 .sheet:has(+ .arc) { padding-bottom: calc(var(--sheet-pad) + var(--arc-depth)); }
+/* The footer's arc rises over main's last section, which isn't its sibling. */
+main:has(+ .arc) > .sheet:last-child { padding-bottom: calc(var(--sheet-pad) + var(--arc-depth)); }
 
 /* ---------- REVEALS (armed by JS only) ----------
    Scrubbed, not one-shot: ScrollReveals drives --rv from 0 to 1 as each
