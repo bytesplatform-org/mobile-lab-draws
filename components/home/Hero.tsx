@@ -1,38 +1,32 @@
-import { Fragment } from "react";
+import { Fragment, type CSSProperties } from "react";
 import Image from "next/image";
-import { brand, business, hero } from "@/lib/content/site";
+import { brand, business, CAP_ORDER, hero } from "@/lib/content/site";
 import { Arrow, Phone, Pin } from "@/components/site/Icons";
 import HeroStage from "./HeroStage";
-import HeroGrid from "./HeroGrid";
-import HeroAnnotations from "./HeroAnnotations";
+import Tube from "./Tube";
+import { LEVELS } from "./heroTubes";
 
 const ledeWords = hero.lede.split(" ");
 
 /**
- * The hero, a combination of both references:
- * - Phase A (FernGrid): the TRUE LAB / RESULTS lockup stands centre-screen
- *   over the darkened tube photograph, with drawing callouts and a
- *   specimen-route network around it; the photo drifts against the pointer.
- * - Phase B (Blueprint): scrolling (pinned) swaps the lockup for the H1, drawn
- *   in GL through a fluid the pointer stirs, each line rising in like liquid;
- *   then the lede.
- * Without motion the lockup, H1 and lede simply stack, in plain DOM type.
+ * The hero.
+ * - Phase A: the tube photograph, darkened, behind a lockup set left that
+ *   rises in like liquid, over the tagline behind a stripe of the six cap
+ *   colours. To its right four specimen tubes stand in a slim rack, each
+ *   labelled (a vertical sticker) with a term from the copy; on load they
+ *   rise into the rack, fill in their cap colours and their caps click on.
+ *   A graduated scale runs down the left edge, its liquid level rising.
+ * - Phase B (Blueprint's GL type): scrolling (pinned) swaps all that for the
+ *   H1, drawn in GL through a fluid the pointer stirs, each line rising in
+ *   like liquid; then the lede.
+ * Without motion everything simply stacks, the tubes already full.
  */
 export default function Hero() {
   return (
     <HeroStage
       media={
-        <Image
-          src={hero.image.src}
-          alt={hero.image.alt}
-          fill
-          loading="eager"
-          fetchPriority="high"
-          sizes="100vw"
-          className="hero-img"
-        />
+        <Image src={hero.image.src} alt={hero.image.alt} fill loading="eager" fetchPriority="high" sizes="100vw" className="hero-img" />
       }
-      grid={<HeroGrid />}
     >
       <div className="hero-top mono" data-hero-fade>
         <span>{brand.kicker}</span>
@@ -41,23 +35,32 @@ export default function Hero() {
         </ol>
       </div>
 
+      <div className="hero-ruler" data-hero-ruler aria-hidden="true">
+        <i className="hr-level" data-hero-level />
+      </div>
+
       <div className="hero-center" data-hero-text>
-        <div className="hero-lockup" data-hero-lockup>
-          <HeroAnnotations labels={hero.annotations} />
+        <div className="hero-a" data-hero-lockup>
           <p className="lockup">
-            <span className="lk-line" data-lk-line>{hero.lockup[0]}</span>{" "}
-            <span className="lk-line lk-2" data-lk-line>{hero.lockup[1]}</span>{" "}
-            <span className="lk-tag" data-lk-tag>
-              <span className="lk-rule" aria-hidden="true" />
-              <span className="lk-pill">
-                <svg className="lk-ring" viewBox="0 0 200 80" preserveAspectRatio="none" aria-hidden="true" data-lk-ring>
-                  <ellipse data-anno-path cx="100" cy="40" rx="97" ry="34" transform="rotate(-3 100 40)" pathLength={1} />
-                </svg>
-                <span className="mono">{business.tagline}</span>
-              </span>
-              <span className="lk-rule r" aria-hidden="true" />
-            </span>
+            <span className="lk-mask"><span className="lk-line" data-lk-line>{hero.lockup[0]}</span></span>{" "}
+            <span className="lk-mask"><span className="lk-line lk-2" data-lk-line>{hero.lockup[1]}</span></span>
           </p>
+          <p className="lk-tag" data-lk-tag>
+            <span className="lk-caps" aria-hidden="true">
+              {CAP_ORDER.map((cap, i) => <i key={cap} data-cap={cap} style={{ "--i": i } as CSSProperties} />)}
+            </span>
+            <span className="mono">{business.tagline}</span>
+          </p>
+        </div>
+
+        <div className="hero-tubes" data-hero-readout aria-hidden="true">
+          {hero.readout.map((r, i) => (
+            <div className="ht" key={r.label} data-ht style={{ "--i": i } as CSSProperties}>
+              <Tube cap={r.cap} id={`hero-${i}`} className="ht-tube" style={{ "--lv": LEVELS[i] } as CSSProperties} />
+              <span className="ht-label mono">{r.label}</span>
+            </div>
+          ))}
+          <span className="ht-rack" data-ht />
         </div>
 
         <div className="hero-head" data-hero-head>

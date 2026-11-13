@@ -1,6 +1,6 @@
 /* ---------- HERO ----------
-   Without motion: a plain block, the lockup, H1 and lede stacked over the
-   photograph. With motion (html.motion): one pinned screen (plus a strip the
+   Without motion: a plain block, the lockup, tubes, H1 and lede stacked over
+   the photograph. With motion (html.motion): one pinned screen (plus a strip the
    statement sheet's curve rises over); the H1 and lede overlay the lockup and
    swap in on scroll (HeroStage). */
 /* The hero runs up under the floating nav (pulled up by the nav's height),
@@ -8,21 +8,17 @@
 .hero { position: relative; overflow: hidden; margin-top: calc(-1 * var(--nav-h)); background: var(--night); color: var(--line); }
 .hero-inner { position: relative; }
 .hero-layer, .hero-media { position: absolute; inset: 0; will-change: transform; }
-.hero-img { object-fit: cover; object-position: 50% 42%; filter: saturate(0.8) contrast(1.05) brightness(0.86); }
+.hero-img { object-fit: cover; object-position: 50% 42%; }
+.hero-media > .hero-img { filter: saturate(0.85) contrast(1.05) brightness(0.8); }
 .hero-veil {
   position: absolute;
   inset: 0;
   pointer-events: none;
   opacity: 0.82;
   background:
-    radial-gradient(110% 80% at 50% 46%, rgba(6, 17, 15, 0.45) 0%, rgba(6, 17, 15, 0.9) 72%),
-    linear-gradient(to bottom, rgba(6, 17, 15, 0.6) 0%, rgba(6, 17, 15, 0.2) 22%, rgba(6, 17, 15, 0.3) 62%, var(--night) 100%);
+    linear-gradient(to right, rgba(6, 17, 15, 0.82) 0%, rgba(6, 17, 15, 0.35) 48%, rgba(6, 17, 15, 0.12) 75%, rgba(6, 17, 15, 0.3) 100%),
+    linear-gradient(to bottom, rgba(6, 17, 15, 0.55) 0%, rgba(6, 17, 15, 0) 24%, rgba(6, 17, 15, 0) 60%, var(--night) 100%);
 }
-.hero-grid-wrap { position: absolute; left: 0; right: 0; top: 0; height: 100%; pointer-events: none; }
-.hero-grid { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--line-dim); }
-html.motion .hero-grid { visibility: hidden; opacity: 0; }
-.hg-pulses { visibility: hidden; }
-html.motion .hg-pulses { visibility: visible; }
 .hero-gl { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
 .hero-in {
   position: relative;
@@ -38,57 +34,72 @@ html.motion .hg-pulses { visibility: visible; }
 .hero-seq li { display: flex; gap: 10px; }
 .hero-seq li + li::before { content: "→"; color: rgba(241, 244, 240, 0.35); }
 .hero-seq li:last-child { color: var(--teal); }
-.hero-center { position: relative; flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 48px; }
+.hero-center { position: relative; flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 40px 56px; }
 
-/* Phase A: the lockup (FernGrid's balanced wordmark) */
-.hero-lockup { position: relative; align-self: center; }
-.lockup { display: inline-flex; flex-direction: column; align-items: stretch; text-transform: uppercase; text-align: center; font-family: var(--f-display); }
-.lk-line { display: block; line-height: 0.86; white-space: nowrap; }
-.lockup .lk-line:first-child { font-size: clamp(3rem, 9.4vw, 10.6rem); font-weight: 600; letter-spacing: 0.05em; font-variation-settings: "SOFT" 20; }
-.lockup .lk-2 { font-size: clamp(3.7rem, 11.7vw, 13.2rem); font-weight: 300; letter-spacing: 0.035em; font-style: italic; font-variation-settings: "SOFT" 100; color: var(--teal-bright); }
-.lk-tag { display: flex; align-items: center; gap: clamp(10px, 1.4vw, 22px); margin-top: clamp(14px, 1.8vw, 28px); }
-.lk-rule { height: 1px; flex: 1; background: linear-gradient(to right, transparent, rgba(241, 244, 240, 0.8)); }
-.lk-rule.r { background: linear-gradient(to left, transparent, rgba(241, 244, 240, 0.8)); }
-.lk-pill { position: relative; }
-.lk-pill .mono {
-  position: relative;
-  display: block;
-  padding: 0.75em 1.3em;
-  border-radius: var(--r-pill);
-  background: var(--teal);
-  color: var(--night);
-  font-size: clamp(9px, 0.82vw, 12px);
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  white-space: nowrap;
-  box-shadow: 0 10px 26px -14px rgba(0, 0, 0, 0.7);
+/* the graduated scale down the left edge, its liquid level rising */
+.hero-ruler { position: absolute; left: var(--gl); top: calc(var(--nav-h) + 74px); bottom: 112px; width: 22px; pointer-events: none; }
+.hero-ruler::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(to top, rgba(241, 244, 240, 0.55) 0 1px, transparent 1px 64px) left / 18px 100% no-repeat,
+    repeating-linear-gradient(to top, rgba(241, 244, 240, 0.3) 0 1px, transparent 1px 12.8px) left / 9px 100% no-repeat;
+  border-left: 1px solid rgba(241, 244, 240, 0.3);
 }
-.lk-ring { position: absolute; left: -10%; top: -44%; width: 120%; height: 188%; overflow: visible; pointer-events: none; }
-.lk-ring ellipse { fill: none; stroke: var(--teal-bright); stroke-width: 1.2; vector-effect: non-scaling-stroke; stroke-dasharray: 1 1; }
-html.motion .lk-ring { visibility: hidden; opacity: 0; }
+.hr-level { position: absolute; left: -1px; bottom: 0; width: 3px; height: 58%; background: linear-gradient(to top, var(--teal), var(--teal-bright)); transform-origin: 50% 100%; border-radius: 2px; }
+.hr-level::after { content: ""; position: absolute; left: -3px; top: -4px; width: 9px; height: 9px; border-radius: 50%; background: var(--teal-bright); box-shadow: 0 0 0 4px rgba(106, 183, 184, 0.2); }
 
-/* Drawing callouts (desktop only) */
-.annos { position: absolute; inset: 0; pointer-events: none; display: none; }
-@media (min-width: 1024px) { .annos { display: block; } }
-.anno { position: absolute; }
-html.motion .anno { visibility: hidden; opacity: 0; }
-.anno svg { position: absolute; inset: 0; overflow: visible; fill: none; }
-.anno path { stroke: var(--teal-bright); stroke-width: 1.5; stroke-linecap: round; stroke-dasharray: 1 1; }
-.anno-ring { stroke: var(--teal-bright); stroke-width: 1.5; }
-.anno-dot { fill: var(--teal-bright); }
-.anno-label { position: absolute; display: flex; align-items: center; gap: 8px; white-space: nowrap; color: var(--line); font-size: 11px; letter-spacing: 0.18em; text-shadow: 0 1px 12px rgba(6, 17, 15, 0.9); }
-.anno-label i { width: 6px; height: 6px; border-radius: 2px 2px 3px 3px; background: var(--teal-bright); }
-.anno-label.lt { left: 0; top: 0; }
-.anno-label.rt { right: 0; top: 0; }
-.anno-label.lb { left: 0; bottom: 0; }
-.anno-label.rb { right: 0; bottom: 0; }
-.a1 { right: calc(100% + 10px); top: -8%; }
-.a2 { left: calc(100% + 6px); top: -14%; }
-.a3 { right: calc(100% + 22px); bottom: 20%; }
-.a4 { left: calc(100% + 22px); bottom: 26%; }
+/* Phase A: the lockup, set left; its lines rise through masks */
+.hero-a { padding-left: 48px; }
+.lockup { display: flex; flex-direction: column; font-family: var(--f-display); line-height: 0.9; }
+.lk-mask { display: block; overflow: hidden; padding: 0.04em 0 0.14em; margin: -0.04em 0 -0.14em; }
+.lk-line { display: block; white-space: nowrap; font-size: clamp(3.6rem, 10.4vw, 12rem); letter-spacing: -0.035em; }
+.lockup .lk-line:not(.lk-2) { font-weight: 500; font-variation-settings: "SOFT" 30; }
+.lockup .lk-2 { font-weight: 300; font-style: italic; color: var(--teal-bright); font-variation-settings: "SOFT" 100; padding-left: 0.42em; }
+.lk-tag { display: flex; align-items: center; gap: 16px; margin-top: clamp(16px, 2vw, 28px); color: var(--line); }
+.lk-tag .mono { font-size: clamp(10px, 0.85vw, 12px); letter-spacing: 0.22em; }
+.lk-caps { display: flex; gap: 4px; }
+.lk-caps i { display: block; width: 7px; height: 16px; border-radius: 2px 2px 3px 3px; background: var(--cap); transform-origin: 50% 100%; box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.18); }
+
+/* four labelled specimen tubes in a slim rack */
+.hero-tubes { position: relative; align-self: end; justify-self: end; display: flex; align-items: flex-end; gap: clamp(16px, 1.8vw, 26px); padding: 0 20px 22px; margin-bottom: 4px; }
+.hero-tubes::before { content: ""; position: absolute; inset: -14% -20% -6%; z-index: -1; background: radial-gradient(closest-side, rgba(6, 17, 15, 0.62), transparent); pointer-events: none; }
+.ht { position: relative; transition: transform 0.6s var(--ease); }
+.ht:nth-child(2) { margin-bottom: 26px; }
+.ht:nth-child(4) { margin-bottom: 14px; }
+.ht:hover { transform: translateY(-12px) rotate(-1.5deg); }
+.ht:hover .tube-wave { animation-duration: 0.7s; }
+.ht-tube { width: clamp(60px, 5.4vw, 82px); height: auto; color: var(--paper); filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.45)); }
+.ht-tube .tube-glass { fill: rgba(241, 244, 240, 0.07); stroke-opacity: 0.7; }
+/* the label sticker, wrapped round the tube's body, its text running up it */
+.ht-label {
+  position: absolute;
+  left: 50%;
+  top: 22%;
+  height: 56%;
+  width: 34%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+  writing-mode: vertical-rl;
+  rotate: 180deg;
+  overflow: hidden;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #dfe6e1, #fbfcfa 40%, #e9eee9);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 4px 10px -4px rgba(0, 0, 0, 0.5);
+  color: var(--ink);
+  font-size: clamp(8.5px, 0.7vw, 10.5px);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+.ht-rack { position: absolute; left: 0; right: 0; bottom: calc(22px + 13%); height: 18px; border-radius: 6px; background: linear-gradient(to bottom, rgba(241, 244, 240, 0.2), rgba(241, 244, 240, 0.08)); border: 1px solid rgba(241, 244, 240, 0.22); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); pointer-events: none; }
+.ht-rack::after { content: ""; position: absolute; left: 6px; right: 6px; bottom: -36px; height: 2px; border-radius: 1px; background: rgba(241, 244, 240, 0.3); }
 
 /* Phase B: the H1 (drawn in GL once the atlas is up) and the lede */
-.hero-head { display: flex; flex-direction: column; align-items: center; gap: clamp(20px, 3vh, 36px); }
+.hero-head { grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; gap: clamp(20px, 3vh, 36px); }
 .hero-title {
   display: block;
   width: max-content;
@@ -122,13 +133,17 @@ html.motion .anno { visibility: hidden; opacity: 0; }
 
 html.motion .hero { height: calc(100svh + var(--arc-depth)); min-height: calc(560px + var(--nav-h) + var(--arc-depth)); }
 html.motion .hero-inner { position: absolute; inset: 0; }
-html.motion .hero-grid-wrap { height: 100svh; }
 html.motion .hero-in { height: 100svh; min-height: calc(560px + var(--nav-h)); }
 html.motion .hero-head { position: absolute; inset: 0; justify-content: center; pointer-events: none; }
 html.motion .hl { clip-path: inset(calc((1 - var(--fill, 1)) * 112%) -0.2em -0.3em -0.2em); }
 html.motion .hero[data-gl-type] .hl { clip-path: none; }
 
-@media (max-width: 960px) { .hero-seq { display: none; } }
+@media (max-width: 960px) {
+  .hero-seq { display: none; }
+  .hero-center { grid-template-columns: minmax(0, 1fr); align-content: end; }
+  .hero-tubes { display: none; }
+}
+@media (max-width: 760px) { .hero-ruler { display: none; } .hero-a { padding-left: 0; } }
 @media (max-width: 760px) {
   .hero-in { gap: 18px; }
   .hero-center { gap: 32px; }
@@ -139,7 +154,6 @@ html.motion .hero[data-gl-type] .hl { clip-path: none; }
   .hero-bar { gap: 8px; flex-wrap: wrap; justify-content: flex-start; }
   .hero-ctas { gap: 8px; }
   .hero-bar .btn { padding: 10px 13px; font-size: 12.5px; }
-  .lockup .lk-line:first-child { font-size: 15vw; }
-  .lockup .lk-2 { font-size: 18.5vw; }
-  .lk-pill .mono { font-size: 8.5px; letter-spacing: 0.14em; padding: 0.7em 1em; }
+  .lk-line { font-size: 17.5vw; }
+  .lk-tag .mono { font-size: 9px; letter-spacing: 0.14em; }
 }

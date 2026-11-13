@@ -155,8 +155,13 @@ export const hero = {
     services: { label: "View all services", href: "#services" },
     directions: business.directions,
   },
-  /** Engineering-drawing callouts around the headline (copy terms only). */
-  annotations: ["DOT & NON-DOT", "PGx / PHARMACOGENOMIC", "30-MILE RADIUS", "BY APPOINTMENT ONLY"],
+  /** The analyzer-style readout beside the lockup (copy terms only; the cap colours are ours). */
+  readout: [
+    { label: "DOT & NON-DOT", cap: "gold" },
+    { label: "PGx / PHARMACOGENOMIC", cap: "lavender" },
+    { label: "30-MILE RADIUS", cap: "blue" },
+    { label: "BY APPOINTMENT ONLY", cap: "green" },
+  ] satisfies { label: string; cap: Cap }[],
 };
 
 /* ------------------------------------------------------------------ */
