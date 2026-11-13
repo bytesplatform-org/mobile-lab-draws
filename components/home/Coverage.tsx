@@ -1,18 +1,16 @@
 import type { CSSProperties } from "react";
-import { business, coverage } from "@/lib/content/site";
+import { coverage } from "@/lib/content/site";
 import ArcBg from "@/components/site/ArcBg";
-import CopyButton from "@/components/site/CopyButton";
 import RadiusMap from "./coverage/RadiusMap";
-import CredentialSeal from "./coverage/CredentialSeal";
+import ScrubText from "@/components/site/ScrubText";
+import AffiliateMarquee from "./coverage/AffiliateMarquee";
 
 /**
- * Coverage and affiliates (paper): the radius map beside the coverage line,
- * the 30-mile radius and the affiliates as text wordmarks (no third-party
- * logos); then the credential seal beside the practice's details, with copy
- * buttons where they help.
+ * Coverage (paper): the radius map beside the coverage line and the 30-mile
+ * radius; then where specimens go: the client's line about it, read in as you
+ * scroll, and the affiliates' logos as a sliding band.
  */
 export default function Coverage() {
-  const d = coverage.details;
   return (
     <section className="sheet paper arc coverage" id={coverage.id} data-tone="paper" aria-labelledby="coverage-title">
       <ArcBg />
@@ -27,36 +25,14 @@ export default function Coverage() {
               <span className="cap-dot" data-cap="grey" aria-hidden="true" />
               {coverage.radius}
             </p>
-            <div className="cv-aff" data-reveal="settle" style={{ "--i": 2 } as CSSProperties}>
-              <h3 className="mono">{coverage.affiliatesLabel}</h3>
-              {/* TODO(client): confirm affiliate wording. */}
-              <ul>
-                {coverage.affiliates.map(a => <li key={a}>{a}</li>)}
-              </ul>
-              <p>{coverage.affiliateNote}</p>
-            </div>
           </div>
         </div>
 
-        <div className="cv-seal">
-          <CredentialSeal ring={coverage.seal.ring} tags={coverage.seal.tags} />
-          <dl className="spec" data-reveal="settle">
-            <div className="spec-row"><dt>{d.legal}</dt><dd>{business.legalName}</dd></div>
-            <div className="spec-row">
-              <dt>{d.address}</dt>
-              <dd className="spec-copy"><span>{business.address}</span><CopyButton value={business.address} /></dd>
-            </div>
-            <div className="spec-row">
-              <dt>{d.phone}</dt>
-              <dd className="spec-copy"><a href={business.phoneHref}>{business.phone}</a><CopyButton value={business.phone} /></dd>
-            </div>
-            <div className="spec-row">
-              <dt>{d.fax}</dt>
-              <dd className="spec-copy"><a href={business.faxHref}>{business.fax}</a><CopyButton value={business.fax} /></dd>
-            </div>
-            <div className="spec-row"><dt>{d.affiliates}</dt><dd>{coverage.affiliates.join(" · ")}</dd></div>
-          </dl>
+        <div className="cv-aff">
+          <h3 className="cv-aff-h" data-reveal="lines">{coverage.affiliatesLabel}</h3>
+          <ScrubText className="cv-aff-note" text={coverage.affiliateNote} lit={["LabCorp", "Quest Diagnostic"]} />
         </div>
+        <AffiliateMarquee />
       </div>
     </section>
   );

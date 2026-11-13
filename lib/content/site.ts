@@ -401,25 +401,25 @@ export const coverage = {
   radius: "Specimens pick up or drop off: 30-mile radius",
   pin: "Fayetteville",
   ring: "30-MILE RADIUS",
-  affiliatesLabel: "AFFILIATES",
+  /** The live site's "AFFILIATES" heading, set in title case. */
+  affiliatesLabel: "Affiliates",
   /**
-   * Text wordmarks only, no third-party logos. The homepage's affiliate strip
-   * is empty; these come from the About page's title and description.
-   * TODO(client): confirm affiliate wording.
+   * The live homepage's affiliate strip, in its order: each organisation's own
+   * logo (sources in public/images/CREDITS.md). `alt` is the name read out.
    */
-  affiliates: ["Labcorp", "Quest Diagnostics", "Ulta Lab Tests"],
+  affiliates: [
+    { alt: "BBB Accredited Business", logo: { src: "/images/affiliates/bbb.png", w: 162, h: 240 } },
+    { alt: "Labcorp", logo: { src: "/images/affiliates/labcorp-logo.png", w: 435, h: 116 } },
+    { alt: "DDC DNA Diagnostics Center", logo: { src: "/images/affiliates/ddc.png", w: 551, h: 240 } },
+    { alt: "Quest Diagnostics", logo: { src: "/images/affiliates/quest-logo.png", w: 286, h: 100 } },
+    { alt: "Ulta Lab Tests", logo: { src: "/images/affiliates/ulta-lab-tests-logo.png", w: 504, h: 97 } },
+    { alt: "Choice DNA Testing", logo: { src: "/images/affiliates/choice-dna-logo.png", w: 189, h: 119 } },
+    { alt: "American Health Care Academy", logo: { src: "/images/affiliates/american-health-care-academy-logo.png", w: 345, h: 127 } },
+    { alt: "Fayette Chamber of Commerce", logo: { src: "/images/affiliates/fayette-chamber-logo.png", w: 645, h: 148 } },
+    { alt: "NPPES, National Plan & Provider Enumeration System", logo: { src: "/images/affiliates/nppes-logo.png", w: 331, h: 97 } },
+    { alt: "NPS, National Performance Specialists", logo: { src: "/images/affiliates/nps-logo.png", w: 225, h: 225 } },
+  ],
   affiliateNote: "All Specimens will be sent to LabCorp, Quest Diagnostic affiliated in Fayetteville GA.",
-  seal: {
-    ring: "TRUE LAB RESULTS AND MOBILE SERVICE LLC · FAYETTEVILLE · GA · ",
-    tags: ["FAYETTEVILLE", "GA 30215"],
-  },
-  details: {
-    legal: "Legal name",
-    address: "Address",
-    phone: "Phone",
-    fax: "Fax",
-    affiliates: "Affiliates",
-  },
 };
 
 /* ------------------------------------------------------------------ */

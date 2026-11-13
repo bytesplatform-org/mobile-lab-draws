@@ -25,3 +25,23 @@ they look like stock too; confirm where they came from.
 
 `/brand/true-lab-results-logo.png` is the client's logo (`isteam/ip/…/blob-1d6befe.png`).
 The heart-and-cross mark used across the site is a redrawing of it (`components/site/Mark.tsx`).
+
+## Affiliate logos (`/images/affiliates/`)
+
+The ten marks from the live homepage's affiliates strip, in the same order.
+Each is the organisation's trademark, shown as on the current site; trimmed,
+background flattened to white, otherwise unchanged. Most files were supplied
+by the project owner (Google Images thumbnails, `encrypted-tbn0.gstatic.com`).
+
+| File | Source |
+| --- | --- |
+| `bbb.png` | Client's copy of the BBB Accredited Business seal (`isteam/ip/…/BBB_ABSeal_V_7469_US…png`) |
+| `labcorp-logo.png` | Supplied (gstatic thumbnail) |
+| `ddc.png` | dnacenter.com (`/wp-content/uploads/2023/05/DDC-red-logo-01.png`) |
+| `quest-logo.png` | Supplied (gstatic thumbnail) |
+| `ulta-lab-tests-logo.png` | Supplied (gstatic thumbnail) |
+| `choice-dna-logo.png` | Supplied (gstatic thumbnail) |
+| `american-health-care-academy-logo.png` | Supplied (gstatic thumbnail) |
+| `fayette-chamber-logo.png` | fayettechamber.org (GrowthZone `fayette-logo-150.jpg`) |
+| `nppes-logo.png` | Supplied (gstatic thumbnail) |
+| `nps-logo.png` | Supplied (gstatic thumbnail) |
