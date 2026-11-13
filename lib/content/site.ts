@@ -96,14 +96,6 @@ export const loader = {
   status: ["Collect", "Screen", "Send", "Results"],
 };
 
-/** The live site's top bar, now a velocity marquee band below the service menu. */
-export const announcement = {
-  ariaLabel: "Featured services",
-  lines: ["PGx / PHARM TESTING", "DOT & Non-DOT DRUG SCREENS", "CONFIDENTIAL PREGNANCY & STD TESTING"],
-  /** Row 2: service terms from the copy, set in outline. */
-  terms: ["Lab Draws", "DNA Collections", "Concierge/ Mobile Services", "Blood Alcohol Testing", "Paternity Testing"],
-};
-
 const LIVE = "https://mobilelabdraws.org";
 
 export const nav = {

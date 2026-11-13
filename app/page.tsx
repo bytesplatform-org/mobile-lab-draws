@@ -1,6 +1,5 @@
 import Loader from "@/components/site/Loader";
 import FilmTrail from "@/components/site/FilmTrail";
-import Announcement from "@/components/site/Announcement";
 import SiteNav from "@/components/site/SiteNav";
 import SiteFooter from "@/components/site/SiteFooter";
 import ScrollReveals from "@/components/site/ScrollReveals";
@@ -38,7 +37,6 @@ export default function Home() {
         <Treatment />
         <CallBand />
         <Book />
-        <Announcement />
         <Coverage />
         <Reviews />
         <Gallery />
