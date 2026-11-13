@@ -285,7 +285,7 @@ export const callBand = {
 };
 
 /* ------------------------------------------------------------------ */
-/* 8. Service menu: appointment lengths to scale                       */
+/* 8. Service menu                                                     */
 /* ------------------------------------------------------------------ */
 
 export type BookItem = {
@@ -313,16 +313,6 @@ export const book = {
     "Fax/Scan/Copy/Notary",
     "Health Fair / Corporate Functions",
   ],
-  /** The time axis, in minutes. */
-  ticks: [
-    { at: 25, label: "25 MIN" },
-    { at: 60, label: "1 HR" },
-    { at: 120, label: "2 HR" },
-    { at: 180, label: "3 HR" },
-    { at: 240, label: "4 HR" },
-  ],
-  axisMax: 240,
-  readout: "Elapsed",
   /**
    * TODO(client): the live site doesn't say which card belongs to which tab.
    * This mapping is a first guess; confirm it.
