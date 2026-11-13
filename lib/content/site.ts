@@ -520,8 +520,6 @@ export const connect = {
 
 export const footer = {
   copyright: "Copyright © 2026 True Lab Results and Mobile service - All Rights Reserved.",
-  wordmark: ["True Lab"],
-  label: "True Lab Results",
   navTitle: "Pages",
   visitTitle: "Visit",
   callTitle: "Call",
