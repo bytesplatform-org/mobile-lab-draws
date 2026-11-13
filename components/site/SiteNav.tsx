@@ -19,15 +19,20 @@ const linkProps = (link: { href: string; external?: boolean }) =>
   link.external ? { href: link.href, target: "_blank", rel: "noopener" } : { href: link.href };
 
 /**
- * Floating capsule nav (Blueprint): the mark and lockup, the page links and
- * the call pill. Whichever [data-sheet] section crosses the middle of the
- * viewport lights its link. Below 1060 px the links fold into FernGrid's
+ * The header: three floating glass pieces rather than one bar: the mark and
+ * name on the left, the page links in a centred pill, the call button on the
+ * right. The current section (whichever [data-sheet] crosses the middle of
+ * the viewport) is shown by a teal pill that slides behind its link; on hover
+ * it slides to the link under the pointer and back again on leave. Below 1060 px the links fold into FernGrid's
  * full-screen menu of big numbered rows, with the account links, phone and
  * email; it traps focus, closes on Escape and freezes the page behind it.
  */
 export default function SiteNav() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string | null>(null);
+  const [hover, setHover] = useState<number | null>(null);
+  const pillRef = useRef<HTMLDivElement>(null);
+  const indRef = useRef<HTMLSpanElement>(null);
   const headerRef = useRef<HTMLElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
@@ -102,28 +107,69 @@ export default function SiteNav() {
 
   const close = () => setOpen(false);
   const isOn = (href: string) => !!active && href === `#${active}`;
+  const activeIndex = nav.links.findIndex(l => isOn(l.href));
+  const lit = hover ?? (activeIndex >= 0 ? activeIndex : null);
+
+  // The sliding pill: sits behind the lit link (measured, so it follows the
+  // links' real widths, and again whenever the pill resizes).
+  useLayoutEffect(() => {
+    const pill = pillRef.current;
+    const ind = indRef.current;
+    if (!pill || !ind) return;
+    const place = () => {
+      const link = lit === null ? null : pill.querySelectorAll<HTMLElement>("[data-link]")[lit];
+      if (!link) {
+        ind.style.opacity = "0";
+        return;
+      }
+      const p = pill.getBoundingClientRect();
+      const r = link.getBoundingClientRect();
+      const first = ind.style.opacity !== "1";
+      // the first placement jumps there; later ones glide
+      if (first) ind.style.transition = "none";
+      ind.style.setProperty("--x", `${r.left - p.left}px`);
+      ind.style.setProperty("--w", `${r.width}px`);
+      ind.style.opacity = "1";
+      if (first) {
+        void ind.offsetWidth;
+        ind.style.transition = "";
+      }
+    };
+    place();
+    const ro = new ResizeObserver(place);
+    ro.observe(pill);
+    return () => ro.disconnect();
+  }, [lit]);
 
   return (
     <>
       <header className="nav" id="nav" ref={headerRef}>
-        <div className="wrap">
-          <a className="brand" href="#top" aria-label={brand.ariaHome}>
+        <div className="nav-row">
+          <a className="brand nav-glass" href="#top" aria-label={brand.ariaHome}>
             <Mark className="brand-mark" />
-            <span className="brand-name" aria-hidden="true">
-              {brand.name}
-              <small>{brand.sub}</small>
-            </span>
+            <span className="brand-name" aria-hidden="true">{brand.name}</span>
           </a>
-          <ul className="nav-links">
-            {nav.links.map(link => (
-              <li key={link.href}>
-                <a {...linkProps(link)} className={isOn(link.href) ? "on" : undefined} aria-current={isOn(link.href) ? "location" : undefined}>
-                  {link.label}
-                  {link.external && <UpRight className="ext" />}
-                </a>
-              </li>
-            ))}
-          </ul>
+          <div className="nav-pill nav-glass" ref={pillRef} onPointerLeave={() => setHover(null)}>
+            <span className="nav-ind" ref={indRef} aria-hidden="true" />
+            <ul className="nav-links">
+              {nav.links.map((link, i) => (
+                <li key={link.href}>
+                  <a
+                    {...linkProps(link)}
+                    data-link
+                    className={lit === i ? "lit" : undefined}
+                    aria-current={isOn(link.href) ? "location" : undefined}
+                    onPointerEnter={() => setHover(i)}
+                    onFocus={() => setHover(i)}
+                    onBlur={() => setHover(null)}
+                  >
+                    {link.label}
+                    {link.external && <UpRight className="ext" />}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
           <a className="btn nav-cta" href={nav.cta.href}>{nav.cta.label}</a>
           <button
             type="button"
