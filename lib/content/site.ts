@@ -532,8 +532,6 @@ export const footer = {
 /** Interface words that aren't the client's copy (labels for controls). */
 export const ui = {
   skip: "Skip to content",
-  previous: "Previous photo",
-  next: "Next photo",
 };
 
 /** Every service and test named in the copy, for the form's select. */

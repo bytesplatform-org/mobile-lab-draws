@@ -2,7 +2,9 @@
  * Photo plates in GL (lib/shaders/foundations): every photograph is drawn,
  * cropped to the plates' shape, into one atlas texture; one canvas draws all
  * the plates, re-reading each one's box every frame, so the GL follows the
- * DOM as it scrolls or is dragged. The DOM <img>s stay as the fallback (and
+ * DOM as it scrolls or is dragged. Only the plates inside the frame are drawn
+ * (up to MAX_PLATES), so there can be more plates than slots, e.g. a looping
+ * row of repeated photos; `srcOf` maps a plate to its photo. The DOM <img>s stay as the fallback (and
  * stay visible until the atlas is on the GPU).
  */
 
@@ -14,7 +16,10 @@ type Options = {
   /** the element the canvas covers (unskewed): plate boxes are read relative to it */
   frame: HTMLElement;
   plates: HTMLElement[];
+  /** the distinct photographs, one atlas cell each */
   srcs: string[];
+  /** which of `srcs` plate i shows (default: plate i shows srcs[i]) */
+  srcOf?(i: number): number;
   /** plate height / width */
   aspect: number;
   /** strength per plate this frame, 0–1 (rest → developed) */
@@ -39,7 +44,9 @@ function loadImage(src: string) {
 }
 
 export function createPlates(canvas: HTMLCanvasElement, o: Options): { stage: Stage; dispose(): void } | null {
-  const n = Math.min(o.plates.length, MAX_PLATES);
+  const n = o.srcs.length;
+  const srcOf = o.srcOf ?? ((i: number) => i);
+  const atlasCells = new Float32Array(n * 4);
   let ready = false;
   const stage = createStage(canvas, { dprCap: 1.5, animate: o.animate, onLost: o.onLost, onRestored: () => { if (ready) o.onRestored(); } });
   if (!stage) return null;
@@ -53,7 +60,7 @@ export function createPlates(canvas: HTMLCanvasElement, o: Options): { stage: St
     uRects: { value: rects },
     uCells: { value: cells },
     uShow: { value: show },
-    uCount: { value: n },
+    uCount: { value: 0 },
     uAtlas: { value: null as THREE.Texture | null },
   };
   const pass = createShaderPass(stage.shared, {
@@ -63,11 +70,17 @@ export function createPlates(canvas: HTMLCanvasElement, o: Options): { stage: St
       if (!ready) return false;
       const fr = o.frame.getBoundingClientRect();
       uniforms.uRadius.value = o.radius * stage.pixelRatio();
-      for (let i = 0; i < n; i++) {
+      let k = 0;
+      for (let i = 0; i < o.plates.length && k < MAX_PLATES; i++) {
         const r = o.plates[i].getBoundingClientRect();
-        rects.set([(r.left - fr.left) / fr.width, (r.top - fr.top) / fr.height, (r.right - fr.left) / fr.width, (r.bottom - fr.top) / fr.height], i * 4);
-        show[i] = o.show(i, dt);
+        if (r.right < fr.left || r.left > fr.right) continue;
+        const c = srcOf(i) * 4;
+        rects.set([(r.left - fr.left) / fr.width, (r.top - fr.top) / fr.height, (r.right - fr.left) / fr.width, (r.bottom - fr.top) / fr.height], k * 4);
+        cells.set(atlasCells.subarray(c, c + 4), k * 4);
+        show[k] = o.show(i, dt);
+        k++;
       }
+      uniforms.uCount.value = k;
     },
   });
   if (!compileMaterials(stage.renderer, [pass.material])) {
@@ -83,7 +96,7 @@ export function createPlates(canvas: HTMLCanvasElement, o: Options): { stage: St
   const ch = Math.round(CELL_W * o.aspect);
   const cols = Math.min(4, n);
   const rows = Math.ceil(n / cols);
-  Promise.all(o.srcs.slice(0, n).map(src => loadImage(src).catch(() => null))).then(imgs => {
+  Promise.all(o.srcs.map(src => loadImage(src).catch(() => null))).then(imgs => {
     if (disposed) return;
     const atlas = document.createElement("canvas");
     atlas.width = cols * cw;
@@ -92,7 +105,7 @@ export function createPlates(canvas: HTMLCanvasElement, o: Options): { stage: St
     imgs.forEach((img, i) => {
       const x = (i % cols) * cw;
       const y = Math.floor(i / cols) * ch;
-      cells.set([x / atlas.width, y / atlas.height, cw / atlas.width, ch / atlas.height], i * 4);
+      atlasCells.set([x / atlas.width, y / atlas.height, cw / atlas.width, ch / atlas.height], i * 4);
       if (!img) return;
       // object-fit: cover, cropped from the source so nothing spills into the next cell
       const s = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);

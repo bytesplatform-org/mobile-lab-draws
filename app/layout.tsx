@@ -58,7 +58,7 @@ export const viewport: Viewport = {
  * <html> so the loader shows (CSS) and hold intros under it
  * (data-site-loading, which introsReady() and the loader release).
  */
-const BEFORE_PAINT = `try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches){var d=document.documentElement;d.classList.add('motion');d.setAttribute('data-site-loading','')}}catch(e){}`;
+const BEFORE_PAINT = `try{document.documentElement.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches){var d=document.documentElement;d.classList.add('motion');d.setAttribute('data-site-loading','')}}catch(e){}`;
 
 /** LocalBusiness / MedicalBusiness structured data, from the content file. */
 const JSON_LD = {

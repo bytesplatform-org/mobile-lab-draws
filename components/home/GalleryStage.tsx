@@ -1,30 +1,32 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { gsap } from "@/lib/animation/gsap";
 import { motionAllowed } from "@/lib/animation/motion";
 import { createPlates } from "@/lib/gl/plates";
-import { gallery, ui } from "@/lib/content/site";
-import { Arrow } from "@/components/site/Icons";
+import { gallery } from "@/lib/content/site";
 
 /** Card height / width (mirrors .gal-card's aspect-ratio). */
 const ASPECT = 5 / 4;
 
 /**
  * The gallery's behaviour.
- * - A native horizontal scroller (touch, trackpad, keys, the buttons); with a
- *   mouse it can also be dragged, and it glides on after a fling.
+ * - A native horizontal scroller (touch, trackpad, keys); with a mouse it can
+ *   also be dragged, and it glides on after a fling.
+ * - Endless: the cards come three times over (Gallery); the scroll starts on
+ *   the middle set and, whenever it drifts half a set from the middle, jumps
+ *   back by one whole set, which lands on an identical frame. Drag, glide and
+ *   the skew all carry the jump. Without JS the copies are hidden.
  * - Its velocity skews the cards a little (FernGrid's marquee velocity), the
  *   GL canvas skewing with them so the plates stay on their cards.
  * - GL (lib/gl/plates): each card is an ink-teal duotone that develops to
  *   colour as it nears the centre, with a glass lens under the pointer.
  *   Reduced motion: every plate developed, one still frame, no skew.
  */
-export default function GalleryStage({ count, srcs, children }: { count: number; srcs: string[]; children: ReactNode }) {
+export default function GalleryStage({ srcs, children }: { srcs: string[]; children: ReactNode }) {
   const frameRef = useRef<HTMLDivElement>(null);
   const scrollerRef = useRef<HTMLUListElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [at, setAt] = useState(1);
 
   useEffect(() => {
     const frame = frameRef.current;
@@ -36,28 +38,42 @@ export default function GalleryStage({ count, srcs, children }: { count: number;
     const shows = cards.map(() => (motion ? 0 : 1));
     const offs: (() => void)[] = [];
 
-    // which card is nearest the centre, for the counter
-    const centred = () => {
-      const fr = frame.getBoundingClientRect();
-      const mid = fr.left + fr.width / 2;
-      let best = 0;
-      let dist = Infinity;
-      cards.forEach((c, i) => {
-        const r = c.getBoundingClientRect();
-        const d = Math.abs(r.left + r.width / 2 - mid);
-        if (d < dist) { dist = d; best = i; }
-      });
-      return best;
+    // ---- the endless loop
+    const n = srcs.length;
+    let span = 0;
+    let onWrap: (d: number) => void = () => {};
+    const measure = () => {
+      span = cards.length >= 2 * n ? cards[n].offsetLeft - cards[0].offsetLeft : 0;
     };
-    const onScroll = () => setAt(centred() + 1);
-    scroller.addEventListener("scroll", onScroll, { passive: true });
-    offs.push(() => scroller.removeEventListener("scroll", onScroll));
+    const wrap = () => {
+      if (!span) return;
+      const x = scroller.scrollLeft;
+      const d = x < span * 0.5 ? span : x > span * 1.5 ? -span : 0;
+      if (!d) return;
+      scroller.scrollLeft = x + d;
+      onWrap(d);
+    };
+    measure();
+    scroller.scrollLeft += span;
+    scroller.addEventListener("scroll", wrap, { passive: true });
+    const ro = new ResizeObserver(() => {
+      const old = span;
+      measure();
+      if (old && span) scroller.scrollLeft += span - old;
+      wrap();
+    });
+    ro.observe(scroller);
+    offs.push(() => {
+      scroller.removeEventListener("scroll", wrap);
+      ro.disconnect();
+    });
 
     // ---- GL plates
     const plates = createPlates(canvas, {
       frame,
       plates: cards,
       srcs,
+      srcOf: i => Number(cards[i].dataset.src ?? i) % n,
       aspect: ASPECT,
       animate: motion,
       radius: 18,
@@ -113,6 +129,14 @@ export default function GalleryStage({ count, srcs, children }: { count: number;
     // ---- mouse drag with a glide
     let drag: { x: number; left: number; t: number; vx: number; moved: boolean } | null = null;
     let glide: gsap.core.Tween | null = null;
+    // a glide tweens a proxy; the loop's jumps are added on as an offset
+    const glidePos = { v: 0 };
+    let glideShift = 0;
+    onWrap = d => {
+      last += d;
+      if (drag) drag.left += d;
+      glideShift += d;
+    };
     const down = (e: PointerEvent) => {
       if (e.pointerType !== "mouse" || e.button !== 0) return;
       glide?.kill();
@@ -138,10 +162,13 @@ export default function GalleryStage({ count, srcs, children }: { count: number;
         scroller.addEventListener("click", swallow, { capture: true, once: true });
         window.setTimeout(() => scroller.removeEventListener("click", swallow, { capture: true }), 50);
       }
-      glide = gsap.to(scroller, {
-        scrollLeft: scroller.scrollLeft - vx * 320,
+      glidePos.v = scroller.scrollLeft;
+      glideShift = 0;
+      glide = gsap.to(glidePos, {
+        v: glidePos.v - vx * 320,
         duration: 0.9,
         ease: "power3.out",
+        onUpdate: () => { scroller.scrollLeft = glidePos.v + glideShift; },
         onComplete: () => scroller.classList.remove("is-drag"),
       });
     };
@@ -158,14 +185,6 @@ export default function GalleryStage({ count, srcs, children }: { count: number;
     return () => offs.forEach(fn => fn());
   }, [srcs]);
 
-  const step = (dir: number) => {
-    const scroller = scrollerRef.current;
-    const card = scroller?.querySelector<HTMLElement>("[data-plate]");
-    if (!scroller || !card) return;
-    const gap = parseFloat(getComputedStyle(scroller).columnGap) || 0;
-    scroller.scrollBy({ left: dir * (card.offsetWidth + gap), behavior: motionAllowed() ? "smooth" : "auto" });
-  };
-
   return (
     <div className="gal">
       <div className="gal-frame" ref={frameRef}>
@@ -174,19 +193,6 @@ export default function GalleryStage({ count, srcs, children }: { count: number;
         </ul>
         <div className="gal-gl" aria-hidden="true">
           <canvas ref={canvasRef} />
-        </div>
-      </div>
-      <div className="wrap gal-ctrl">
-        <p className="mono" aria-hidden="true">
-          {String(at).padStart(2, "0")} / {String(count).padStart(2, "0")}
-        </p>
-        <div className="gal-btns">
-          <button type="button" className="gal-btn prev" onClick={() => step(-1)} aria-label={ui.previous}>
-            <Arrow />
-          </button>
-          <button type="button" className="gal-btn" onClick={() => step(1)} aria-label={ui.next}>
-            <Arrow />
-          </button>
         </div>
       </div>
     </div>
