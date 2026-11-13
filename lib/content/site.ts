@@ -163,8 +163,11 @@ export const hero = {
 /* 3. Statement ring                                                   */
 /* ------------------------------------------------------------------ */
 
+/** Set as a specimen label: the name and tagline in its header, these four as its fields. */
 export const statement = {
-  ring: "True Lab Results · Mobile Services and Phlebotomy Training · ",
+  /** The label's stamp and stub: terms from the copy. */
+  stamp: "By appointment only",
+  stub: "Specimens",
   credentials: [
     { k: "Service", v: "All services available by appointment only." },
     { k: "Billing", v: "Insurance accepted for lab test billing only. Venipuncture fee is due at the time of service." },

@@ -1,24 +1,97 @@
-/* ---------- STATEMENT (rises over the hero) ---------- */
-.statement { padding-bottom: calc(var(--sheet-pad) * 0.6); }
-.st-ring { position: relative; width: min(88vw, 740px); aspect-ratio: 1; margin: 8px auto 0; }
-.st-ring > svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.st-ring-rule { stroke: var(--ink); stroke-opacity: 0.14; }
-.st-ring-rule.dash { stroke-dasharray: 2 9; stroke-opacity: 0.22; }
-.st-ring-text { font-family: var(--f-display); font-size: 40px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; fill: var(--ink); white-space: pre; font-variation-settings: "SOFT" 50; }
-.st-ring-core { position: absolute; inset: 0; display: grid; place-items: center; }
-.mark-xl { width: clamp(110px, 17vw, 190px); height: auto; aspect-ratio: 1; --mark-line: var(--teal-ink); }
-.needle { display: block; width: 120px; height: 220px; margin: -36px auto 0; overflow: visible; }
-.needle-line { stroke: var(--teal-ink); stroke-width: 1.6; fill: none; }
-.needle-tip { fill: var(--teal-ink); }
-.needle-drop { fill: var(--blood); }
-.ripple { fill: none; stroke: var(--blood); stroke-width: 1.2; stroke-opacity: 0.55; }
-.ripple-dot { fill: var(--blood); fill-opacity: 0.5; }
-.creds { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; margin: 28px 0 0; }
-.creds > div { border-top: 1.5px solid var(--ink); padding-top: 16px; min-width: 0; }
-.creds dt { color: var(--teal-ink); }
-.creds dd { margin: 12px 0 0; font-family: var(--f-display); font-size: clamp(1.2rem, 1.7vw, 1.55rem); line-height: 1.22; font-variation-settings: "SOFT" 50; }
-@media (max-width: 900px) { .creds { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 520px) { .creds { grid-template-columns: minmax(0, 1fr); } }
+/* ---------- STATEMENT: the specimen label (rises over the hero) ---------- */
+.statement { padding-bottom: calc(var(--sheet-pad) * 0.8); }
+.slab-stage { perspective: 1400px; padding: 12px 0 28px; }
+.slab-tilt { transform-style: preserve-3d; }
+.slab {
+  position: relative;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  max-width: 1080px;
+  margin: 0 auto;
+  border: 1px solid rgba(14, 27, 25, 0.16);
+  border-radius: 22px;
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(255, 255, 255, 0.9), transparent 60%),
+    var(--paper-hi);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 50px 90px -60px rgba(14, 27, 25, 0.55), 0 10px 24px -18px rgba(14, 27, 25, 0.35);
+  overflow: hidden;
+  transform: rotate(-1.2deg);
+}
+/* the colour-coded edge: the six tube caps */
+.slab-caps { display: grid; grid-template-rows: repeat(6, 1fr); border-right: 1px solid rgba(14, 27, 25, 0.12); }
+.slab-caps i { display: block; background: var(--cap); transform-origin: 50% 0; }
+.slab-body { min-width: 0; padding: clamp(22px, 3.4vw, 44px) clamp(22px, 3.6vw, 48px) 0; }
+.slab-head { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 18px 28px; align-items: center; padding-bottom: clamp(20px, 2.6vw, 32px); border-bottom: 1.5px solid var(--ink); }
+.slab-mark { width: clamp(56px, 6vw, 84px); height: auto; aspect-ratio: 1; }
+.slab-name { font-size: clamp(2.2rem, 4.5vw, 4.4rem); font-weight: 500; line-height: 0.95; letter-spacing: -0.025em; font-variation-settings: "SOFT" 40; }
+.slab-tag { margin-top: 12px; color: var(--teal-ink); font-size: clamp(10px, 0.9vw, 12px); letter-spacing: 0.18em; }
+.slab-code { display: grid; justify-items: stretch; gap: 6px; width: clamp(150px, 20vw, 250px); }
+.slab-bars { display: block; width: 100%; height: clamp(44px, 5vw, 64px); fill: var(--ink); }
+.slab-code .mono { text-align: center; letter-spacing: 0.32em; font-size: 11px; color: var(--ink); }
+.slab-fields { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0; }
+.slab-fields > div { min-width: 0; padding: 20px 22px 26px; border-right: 1px solid var(--rule); }
+.slab-fields > div:first-child { padding-left: 0; }
+.slab-fields > div:last-child { border-right: 0; padding-right: 0; }
+.slab-fields dt { display: flex; gap: 10px; color: var(--ink-dim); }
+.slab-fields dt span { color: var(--teal-ink); }
+.slab-fields dd { margin: 12px 0 0; font-family: var(--f-display); font-size: clamp(1.15rem, 1.55vw, 1.45rem); line-height: 1.24; font-variation-settings: "SOFT" 50; }
+/* the perforated stub */
+.slab-stub {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 0 calc(-1 * clamp(22px, 3.6vw, 48px));
+  padding: 16px clamp(22px, 3.6vw, 48px);
+  border-top: 2px dashed rgba(14, 27, 25, 0.28);
+  background: rgba(220, 227, 222, 0.45);
+  color: var(--ink-dim);
+}
+/* the tear notch at the label's edge */
+.slab-stub::after { content: ""; position: absolute; top: -11px; right: -11px; width: 20px; height: 20px; border-radius: 50%; background: var(--paper); border: 1px solid rgba(14, 27, 25, 0.16); }
+.slab-stub .mono:first-child { color: var(--teal-ink); }
+.slab-legal { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.slab-bars.small { width: 110px; height: 26px; flex-shrink: 0; }
+/* the stamp */
+.slab-stamp { pointer-events: none; transform: rotate(-11deg); mix-blend-mode: multiply; }
+/* desktop: the name on one line; the stamp in the label's empty lower right, above the stub */
+@media (min-width: 901px) {
+  .slab-name { white-space: nowrap; }
+  .slab-stamp { position: absolute; right: 7%; bottom: 74px; }
+}
+.slab-stamp span {
+  display: block;
+  padding: 12px 20px;
+  border: 3px double var(--teal-ink);
+  border-radius: 12px;
+  color: var(--teal-ink);
+  font-size: clamp(13px, 1.3vw, 17px);
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  opacity: 0.85;
+  mask-image: radial-gradient(circle at 30% 40%, #000 55%, rgba(0, 0, 0, 0.65) 75%, #000 90%);
+}
+@media (max-width: 900px) {
+  .slab-head { grid-template-columns: auto minmax(0, 1fr); }
+  .slab-code { grid-column: 2 / -1; width: min(100%, 300px); justify-self: end; }
+  .slab-stamp { grid-column: 1 / 2; grid-row: 2; align-self: center; }
+  .slab-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .slab-fields > div { padding: 18px 18px 22px 0; border-right: 0; border-bottom: 1px solid var(--rule); }
+  .slab-fields > div:nth-child(odd) { border-right: 1px solid var(--rule); }
+  .slab-fields > div:nth-child(even) { padding-left: 18px; }
+  .slab-fields > div:nth-last-child(-n + 2) { border-bottom: 0; }
+}
+@media (max-width: 560px) {
+  .slab { grid-template-columns: 10px minmax(0, 1fr); border-radius: 18px; }
+  .slab-fields { grid-template-columns: minmax(0, 1fr); }
+  .slab-fields > div, .slab-fields > div:nth-child(even) { padding: 16px 0 18px; border-right: 0 !important; border-bottom: 1px solid var(--rule); }
+  .slab-fields > div:last-child { border-bottom: 0; }
+  .slab-legal { display: none; }
+  .slab-stub { justify-content: space-between; }
+  .slab-head { grid-template-columns: auto minmax(0, 1fr); }
+  .slab-stamp, .slab-code { grid-column: 1 / -1; justify-self: start; }
+  .slab-stamp { grid-row: auto; }
+}
 
 /* ---------- TREATMENT-CENTER SUPPORT ---------- */
 .tr-top { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: 64px; align-items: start; }
