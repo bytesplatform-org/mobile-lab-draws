@@ -30,8 +30,10 @@ export default function TreatmentFlow({ children }: { children: ReactNode }) {
     apply(0);
     const st = ScrollTrigger.create({
       trigger: grid,
-      start: "top 78%",
-      end: "bottom 60%",
+      // Done while the whole grid is still on screen, before the next
+      // sheet's arc rises over its last row.
+      start: "top 90%",
+      end: "bottom 72%",
       scrub: 0.5,
       onUpdate: self => apply(self.progress),
       onRefresh: self => apply(self.progress),
