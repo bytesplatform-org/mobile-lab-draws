@@ -52,17 +52,17 @@ html.motion .loader {
 @media (max-width: 640px) { .ld-legal { display: none; } }
 
 /* ---------- ANNOUNCEMENT BAND ---------- */
+/* Between the service menu and the coverage sheet; the sheet's arc rises
+   over the band's lower padding, so the rows stay clear of the curve. */
 .ann {
   position: relative;
-  z-index: 51;
-  height: var(--ann-h);
   overflow: hidden;
+  padding: 26px 0;
   background: var(--night-deep);
   color: var(--teal);
-  border-bottom: 1px solid rgba(103, 168, 169, 0.18);
-  display: flex;
-  align-items: center;
+  border-top: 1px solid rgba(103, 168, 169, 0.18);
 }
+.ann:has(+ .arc) { padding-bottom: calc(26px + var(--arc-depth)); }
 .ann-rows { display: grid; gap: 4px; width: 100%; }
 .ann-track { display: flex; width: max-content; will-change: transform; }
 .ann-set { display: flex; flex-shrink: 0; align-items: center; }

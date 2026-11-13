@@ -51,7 +51,6 @@
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
   --sheet-pad: 112px;
   --nav-h: 76px;
-  --ann-h: 62px;
   --r-sm: 10px;
   --r-md: 16px;
   --r-lg: 24px;
@@ -61,7 +60,7 @@
 }
 
 @media (min-width: 768px) { :root { --arc-depth: 18vh; } }
-@media (max-width: 760px) { :root { --sheet-pad: 76px; --nav-h: 68px; --ann-h: 54px; } }
+@media (max-width: 760px) { :root { --sheet-pad: 76px; --nav-h: 68px; } }
 
 @theme inline {
   --color-night: var(--night);

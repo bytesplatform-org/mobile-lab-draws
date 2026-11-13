@@ -96,7 +96,7 @@ export const loader = {
   status: ["Collect", "Screen", "Send", "Results"],
 };
 
-/** The live site's top bar, now a velocity marquee above the nav. */
+/** The live site's top bar, now a velocity marquee band below the service menu. */
 export const announcement = {
   ariaLabel: "Featured services",
   lines: ["PGx / PHARM TESTING", "DOT & Non-DOT DRUG SCREENS", "CONFIDENTIAL PREGNANCY & STD TESTING"],

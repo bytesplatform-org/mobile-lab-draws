@@ -36,10 +36,12 @@ function Terms() {
 
 /**
  * The live site's top bar, reborn as FernGrid's two-row marquee: slim, teal
- * on night, above the nav. Row 1 carries its three lines; row 2 runs the other
+ * on night, set as a band between the service menu and the coverage sheet,
+ * whose arc rises over it. Row 1 carries its three lines; row 2 runs the other
  * way in outlined service terms from the copy. Scroll velocity nudges the
  * speed (and turns both rows round when scrolling back up), then they ease
- * back to cruising pace. Static (the first set, in place) without motion.
+ * back to cruising pace; paused while off screen. Static (the first set, in
+ * place) without motion.
  */
 export default function Announcement() {
   const ref = useRef<HTMLElement>(null);
@@ -48,15 +50,14 @@ export default function Announcement() {
     const el = ref.current;
     if (!el || !motionAllowed()) return;
     const ctx = gsap.context(() => {
-      const a = gsap.to("[data-ann='1']", { xPercent: -50, duration: 46, ease: "none", repeat: -1 });
-      const b = gsap.fromTo("[data-ann='2']", { xPercent: -50 }, { xPercent: 0, duration: 58, ease: "none", repeat: -1 });
+      const a = gsap.to("[data-ann='1']", { xPercent: -50, duration: 46, ease: "none", repeat: -1, paused: true });
+      const b = gsap.fromTo("[data-ann='2']", { xPercent: -50 }, { xPercent: 0, duration: 58, ease: "none", repeat: -1, paused: true });
       const tweens = [a, b];
       ScrollTrigger.create({
         trigger: el,
-        start: "top top",
+        start: "top bottom",
         end: "bottom top",
-        onToggle: self => tweens.forEach(t => (self.isActive || self.progress === 0 ? t.play() : t.pause())),
-        onLeaveBack: () => tweens.forEach(t => t.play()),
+        onToggle: self => tweens.forEach(t => (self.isActive ? t.play() : t.pause())),
         onUpdate: self => {
           const boost = gsap.utils.clamp(-6, 6, self.getVelocity() / 260);
           const scale = (self.direction >= 0 ? 1 : -1) * (1 + Math.abs(boost));
@@ -75,7 +76,7 @@ export default function Announcement() {
   }, []);
 
   return (
-    <section className="ann" ref={ref} aria-label={announcement.ariaLabel}>
+    <section className="ann" ref={ref} aria-label={announcement.ariaLabel} data-tone="night">
       <ul className="sr-only">
         {announcement.lines.map(t => <li key={t}>{t}</li>)}
       </ul>

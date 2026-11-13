@@ -53,8 +53,6 @@ export default function HeroStage({ media, grid, children }: { media: ReactNode;
     const q = gsap.utils.selector(hero);
     const lines = q("[data-line]") as HTMLElement[];
     const dirOf = (el: Element) => Number(el.closest<HTMLElement>("[data-line]")?.dataset.dir ?? 1);
-    const nav = document.getElementById("nav");
-    const navH = () => nav?.offsetHeight ?? 76;
 
     // ---- GL: the fluid headline. The loader waits for it (up to 6 s).
     let settle: () => void = () => {};
@@ -97,7 +95,8 @@ export default function HeroStage({ media, grid, children }: { media: ReactNode;
         defaults: { ease: "none" },
         scrollTrigger: {
           trigger: hero,
-          start: () => `top ${navH()}`,
+          // the hero sits under the nav from the very top of the page
+          start: "top top",
           end: PIN,
           pin: true,
           scrub: 0.6,

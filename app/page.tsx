@@ -29,7 +29,6 @@ export default function Home() {
       {/* First in the body, so the loader paints before anything beneath it. */}
       <Loader />
       <FilmTrail />
-      <Announcement />
       <SiteNav />
       <main id="main">
         <Hero />
@@ -39,6 +38,7 @@ export default function Home() {
         <Treatment />
         <CallBand />
         <Book />
+        <Announcement />
         <Coverage />
         <Reviews />
         <Gallery />
