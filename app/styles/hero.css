@@ -1,0 +1,143 @@
+/* ---------- HERO ----------
+   Without motion: a plain block, the lockup, H1 and lede stacked over the
+   photograph. With motion (html.motion): one pinned screen (plus a strip the
+   statement sheet's curve rises over); the H1 and lede overlay the lockup and
+   swap in on scroll (HeroStage). */
+.hero { position: relative; overflow: hidden; background: var(--night); color: var(--line); }
+.hero-inner { position: relative; }
+.hero-layer, .hero-media { position: absolute; inset: 0; will-change: transform; }
+.hero-img { object-fit: cover; object-position: 50% 42%; filter: saturate(0.8) contrast(1.05) brightness(0.86); }
+.hero-veil {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.82;
+  background:
+    radial-gradient(110% 80% at 50% 46%, rgba(6, 17, 15, 0.45) 0%, rgba(6, 17, 15, 0.9) 72%),
+    linear-gradient(to bottom, rgba(6, 17, 15, 0.85) 0%, rgba(6, 17, 15, 0.2) 22%, rgba(6, 17, 15, 0.3) 62%, var(--night) 100%);
+}
+.hero-grid-wrap { position: absolute; left: 0; right: 0; top: 0; height: 100%; pointer-events: none; }
+.hero-grid { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--line-dim); }
+html.motion .hero-grid { visibility: hidden; opacity: 0; }
+.hg-pulses { visibility: hidden; }
+html.motion .hg-pulses { visibility: visible; }
+.hero-gl { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
+.hero-in {
+  position: relative;
+  z-index: 3;
+  min-height: calc(100svh - var(--nav-h) - var(--ann-h));
+  padding: 22px var(--gr) 26px var(--gl);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.hero-top { display: flex; justify-content: space-between; align-items: center; gap: 16px; color: var(--line-dim); }
+.hero-seq { display: flex; gap: 10px; list-style: none; margin: 0; padding: 0; }
+.hero-seq li { display: flex; gap: 10px; }
+.hero-seq li + li::before { content: "→"; color: rgba(241, 244, 240, 0.35); }
+.hero-seq li:last-child { color: var(--teal); }
+.hero-center { position: relative; flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 48px; }
+
+/* Phase A: the lockup (FernGrid's balanced wordmark) */
+.hero-lockup { position: relative; align-self: center; }
+.lockup { display: inline-flex; flex-direction: column; align-items: stretch; text-transform: uppercase; text-align: center; font-family: var(--f-display); }
+.lk-line { display: block; line-height: 0.86; white-space: nowrap; }
+.lockup .lk-line:first-child { font-size: clamp(3rem, 9.4vw, 10.6rem); font-weight: 600; letter-spacing: 0.05em; font-variation-settings: "SOFT" 20; }
+.lockup .lk-2 { font-size: clamp(3.7rem, 11.7vw, 13.2rem); font-weight: 300; letter-spacing: 0.035em; font-style: italic; font-variation-settings: "SOFT" 100; color: var(--teal-bright); }
+.lk-tag { display: flex; align-items: center; gap: clamp(10px, 1.4vw, 22px); margin-top: clamp(14px, 1.8vw, 28px); }
+.lk-rule { height: 1px; flex: 1; background: linear-gradient(to right, transparent, rgba(241, 244, 240, 0.8)); }
+.lk-rule.r { background: linear-gradient(to left, transparent, rgba(241, 244, 240, 0.8)); }
+.lk-pill { position: relative; }
+.lk-pill .mono {
+  position: relative;
+  display: block;
+  padding: 0.75em 1.3em;
+  border-radius: var(--r-pill);
+  background: var(--teal);
+  color: var(--night);
+  font-size: clamp(9px, 0.82vw, 12px);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  white-space: nowrap;
+  box-shadow: 0 10px 26px -14px rgba(0, 0, 0, 0.7);
+}
+.lk-ring { position: absolute; left: -10%; top: -44%; width: 120%; height: 188%; overflow: visible; pointer-events: none; }
+.lk-ring ellipse { fill: none; stroke: var(--teal-bright); stroke-width: 1.2; vector-effect: non-scaling-stroke; stroke-dasharray: 1 1; }
+html.motion .lk-ring { visibility: hidden; opacity: 0; }
+
+/* Drawing callouts (desktop only) */
+.annos { position: absolute; inset: 0; pointer-events: none; display: none; }
+@media (min-width: 1024px) { .annos { display: block; } }
+.anno { position: absolute; }
+html.motion .anno { visibility: hidden; opacity: 0; }
+.anno svg { position: absolute; inset: 0; overflow: visible; fill: none; }
+.anno path { stroke: var(--teal-bright); stroke-width: 1.5; stroke-linecap: round; stroke-dasharray: 1 1; }
+.anno-ring { stroke: var(--teal-bright); stroke-width: 1.5; }
+.anno-dot { fill: var(--teal-bright); }
+.anno-label { position: absolute; display: flex; align-items: center; gap: 8px; white-space: nowrap; color: var(--line); font-size: 11px; letter-spacing: 0.18em; text-shadow: 0 1px 12px rgba(6, 17, 15, 0.9); }
+.anno-label i { width: 6px; height: 6px; border-radius: 2px 2px 3px 3px; background: var(--teal-bright); }
+.anno-label.lt { left: 0; top: 0; }
+.anno-label.rt { right: 0; top: 0; }
+.anno-label.lb { left: 0; bottom: 0; }
+.anno-label.rb { right: 0; bottom: 0; }
+.a1 { right: calc(100% + 10px); top: -8%; }
+.a2 { left: calc(100% + 6px); top: -14%; }
+.a3 { right: calc(100% + 22px); bottom: 20%; }
+.a4 { left: calc(100% + 22px); bottom: 26%; }
+
+/* Phase B: the H1 (drawn in GL once the atlas is up) and the lede */
+.hero-head { display: flex; flex-direction: column; align-items: center; gap: clamp(20px, 3vh, 36px); }
+.hero-title {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  margin: 0 auto;
+  font-weight: 500;
+  font-size: clamp(2.1rem, 6vw, 7.8rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-wrap: nowrap;
+}
+.hl { display: block; white-space: nowrap; }
+.hl:nth-child(1) { padding-left: 5vw; }
+.hl:nth-child(2) { padding-left: 17vw; }
+.hw { display: inline-block; will-change: transform; }
+.hw[data-hollow] { color: transparent; -webkit-text-stroke: 1.5px var(--teal-bright); }
+.hero[data-gl-type] .hw { color: transparent; -webkit-text-stroke-color: transparent; }
+.hero-lede { max-width: 46ch; text-align: center; font-size: clamp(1rem, 1.35vw, 1.3rem); line-height: 1.5; color: var(--line-dim); }
+.lede-w { display: inline-block; }
+
+.hero-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line-faint);
+}
+.hero-bar .btn { padding: 12px 20px; }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 10px; }
+
+html.motion .hero { height: calc(100svh - var(--nav-h) - var(--ann-h) + var(--arc-depth)); min-height: calc(560px + var(--arc-depth)); }
+html.motion .hero-inner { position: absolute; inset: 0; }
+html.motion .hero-grid-wrap { height: calc(100svh - var(--nav-h)); }
+html.motion .hero-in { height: calc(100svh - var(--nav-h) - var(--ann-h)); min-height: 560px; }
+html.motion .hero-head { position: absolute; inset: 0; justify-content: center; pointer-events: none; }
+html.motion .hl { clip-path: inset(calc((1 - var(--fill, 1)) * 112%) -0.2em -0.3em -0.2em); }
+html.motion .hero[data-gl-type] .hl { clip-path: none; }
+
+@media (max-width: 960px) { .hero-seq { display: none; } }
+@media (max-width: 760px) {
+  .hero-in { gap: 18px; }
+  .hero-center { gap: 32px; }
+  .hero-title { font-size: 9.6vw; font-weight: 600; width: auto; text-wrap: balance; }
+  .hl { white-space: normal; padding-left: 0 !important; }
+  .hl:nth-child(2) { padding-left: 8vw !important; }
+  .hw[data-hollow] { -webkit-text-stroke-width: 1px; }
+  .hero-bar { gap: 8px; flex-wrap: wrap; justify-content: flex-start; }
+  .hero-ctas { gap: 8px; }
+  .hero-bar .btn { padding: 10px 13px; font-size: 12.5px; }
+  .lockup .lk-line:first-child { font-size: 15vw; }
+  .lockup .lk-2 { font-size: 18.5vw; }
+  .lk-pill .mono { font-size: 8.5px; letter-spacing: 0.14em; padding: 0.7em 1em; }
+}

@@ -1,26 +1,88 @@
 @import "tailwindcss";
+@import "./styles/base.css";
+@import "./styles/chrome.css";
+@import "./styles/hero.css";
+@import "./styles/sections.css";
+@import "./styles/stories.css";
+@import "./styles/closing.css";
+
+/* "Clinical Liquid": ink-teal night sheets and cool clinical-ivory paper sheets, alternating, each
+   new sheet rising over the last on a curved arc. The accents are the blood-collection tube-cap
+   colour code; deep venous red is a rare dose (a fill, the drop). Motion is liquid: things fill,
+   draw, flow and settle. Section styles live in ./styles/*. */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --night: #06110f;
+  --night-deep: #020807;
+  --night-warm: #141310;
+  --paper: #f1f4f0;
+  --paper-dim: #dce3de;
+  --paper-hi: #f8faf7;
+  --ink: #0e1b19;
+  --ink-dim: #5b6b67;
+  --teal: #67a8a9;
+  --teal-bright: #6ab7b8;
+  --teal-ink: #2e6b6c;
+  --blood: #8e1b22;
+  --cap-lavender: #8e7cc3;
+  --cap-blue: #7fc8e8;
+  --cap-gold: #e5b64a;
+  --cap-red: #c8323a;
+  --cap-green: #6dbe8d;
+  --cap-grey: #a9afb3;
+  /* text and rules on night */
+  --line: var(--paper);
+  --line-dim: rgba(241, 244, 240, 0.66);
+  --line-faint: rgba(241, 244, 240, 0.14);
+  /* rules on paper */
+  --rule: #c9d3cd;
+  --ink-faint: rgba(14, 27, 25, 0.12);
+  --f-display: var(--font-fraunces), "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --f-body: var(--font-manrope), "Helvetica Neue", Arial, sans-serif;
+  --f-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --s-1: 0.75rem;
+  --s-2: 0.875rem;
+  --s-3: 1rem;
+  --s-4: 1.125rem;
+  --gl: max(16px, env(safe-area-inset-left, 0px));
+  --gr: max(16px, env(safe-area-inset-right, 0px));
+  --wrap: 1240px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --sheet-pad: 112px;
+  --nav-h: 76px;
+  --ann-h: 62px;
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 24px;
+  --r-pill: 999px;
+  --arc-depth: 10vh;
+  color-scheme: dark;
 }
+
+@media (min-width: 768px) { :root { --arc-depth: 18vh; } }
+@media (max-width: 760px) { :root { --sheet-pad: 76px; --nav-h: 68px; --ann-h: 54px; } }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-night: var(--night);
+  --color-night-deep: var(--night-deep);
+  --color-paper: var(--paper);
+  --color-paper-dim: var(--paper-dim);
+  --color-ink: var(--ink);
+  --color-ink-dim: var(--ink-dim);
+  --color-teal: var(--teal);
+  --color-teal-bright: var(--teal-bright);
+  --color-teal-ink: var(--teal-ink);
+  --color-blood: var(--blood);
+  --color-cap-lavender: var(--cap-lavender);
+  --color-cap-blue: var(--cap-blue);
+  --color-cap-gold: var(--cap-gold);
+  --color-cap-red: var(--cap-red);
+  --color-cap-green: var(--cap-green);
+  --color-cap-grey: var(--cap-grey);
+  --font-display: var(--f-display);
+  --font-sans: var(--f-body);
+  --font-mono: var(--f-mono);
+  --ease-liquid: var(--ease);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}

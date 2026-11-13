@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# True Lab Results: homepage redesign (demo)
 
-## Getting Started
+A redesign of the homepage of [mobilelabdraws.org](https://mobilelabdraws.org) for True Lab
+Results and Mobile Service LLC (mobile phlebotomy, lab draws and drug testing, Fayetteville, GA).
+It keeps the client's content, word for word, and gives it a motion-led design, "Clinical
+Liquid": ink-teal and clinical-ivory sheets, the blood-collection tube-cap colour code as the
+accent system, and motion that fills, draws, flows and settles.
 
-First, run the development server:
+Next 16 (App Router, Cache Components) · React 19 · Tailwind 4 · GSAP 3.15 (ScrollTrigger,
+SplitText, Flip) · Lenis · Three.js.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev            # http://localhost:3000
+npm run lint
+npm run build
+npm run check:content  # after a build: every string in lib/content/site.ts is on the page
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Where things are
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `lib/content/site.ts`: every word on the page, verbatim from the live site. Components render only from it.
+- `app/page.tsx`: the sections, in the live site's order. `components/home/*` holds the sections, `components/site/*` the page furniture (loader, nav, footer, reveals, cursor, film trail).
+- `lib/gl/*` and `lib/shaders/*`: the WebGL (one Three renderer per canvas): the fluid headline, the pointer's film trail, the developing photo plates and the credential seal.
+- `lib/animation/*`: GSAP registration (`gsap.ts`, the only place plugins are registered), Lenis, the shared intro timeline, magnets.
+- `app/actions/*`: the appointment request and sign-up Server Actions.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Email delivery
 
-## Learn More
+The appointment form and sign-up deliver through [Resend](https://resend.com) when these are set:
 
-To learn more about Next.js, take a look at the following resources:
+```
+RESEND_API_KEY=…
+INQUIRY_TO=truelabresults@mobilelabdraws.org
+INQUIRY_FROM=…            # a sender on a domain verified with Resend
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Until then they say so honestly and offer a ready-made email and the phone number. They never
+claim a request was sent unless the server confirmed it.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Before launch
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Search the code for `TODO(client)`. In particular, replace the photographs: most are GoDaddy stock,
+licensed for GoDaddy sites only (see `public/images/CREDITS.md`).
