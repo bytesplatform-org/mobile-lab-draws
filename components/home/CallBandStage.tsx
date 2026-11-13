@@ -40,6 +40,11 @@ export default function CallBandStage({ children }: { children: ReactNode }) {
         fillEl.style.clipPath = "inset(0 100% 0 0)";
         return;
       }
+      // Complete: no clip at all, so the last digit's overhang fills too.
+      if (fill.p >= 0.995) {
+        fillEl.style.clipPath = "none";
+        return;
+      }
       const amp = fill.p >= 1 ? 0 : 2.2;
       const pts: string[] = ["0% 0%"];
       for (let i = 0; i <= 14; i++) {
@@ -58,14 +63,16 @@ export default function CallBandStage({ children }: { children: ReactNode }) {
       gsap
         .timeline({
           defaults: { ease: "none" },
-          scrollTrigger: { trigger: headline, start: "top 88%", end: "top 30%", scrub: 0.6 },
+          scrollTrigger: { trigger: headline, start: "top 92%", end: "top 58%", scrub: 0.6 },
         })
         .to(words, { yPercent: 0, rotateX: 0, opacity: 1, filter: "blur(0px)", duration: 0.5, stagger: 0.07, ease: "power2.out" })
         .to(digits, { yPercent: 0, opacity: 1, filter: "blur(0px)", duration: 0.35, stagger: 0.025, ease: "power2.out" }, 0.3);
       gsap.to(fill, {
         p: 1,
         ease: "none",
-        scrollTrigger: { trigger: headline, start: "top 40%", end: "bottom 22%", scrub: 0.8 },
+        // fills as the digits finish assembling; full by the time the
+        // headline's top reaches 45 % of the screen
+        scrollTrigger: { trigger: headline, start: "top 68%", end: "top 45%", scrub: 0.6 },
       });
       gsap.from(q("[data-cb-rise]"), {
         y: 36,
