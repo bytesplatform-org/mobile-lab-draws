@@ -183,6 +183,7 @@ html.motion .rmap.is-live .rmap-ripple { animation: ripple 4.8s cubic-bezier(0.2
 
 /* ---------- CONTACT ---------- */
 .contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 64px; align-items: start; }
+.ct-sub { margin-top: 12px; font-family: var(--f-display); font-style: italic; font-size: clamp(1.4rem, 2.2vw, 2rem); line-height: 1.1; color: var(--teal-ink); font-variation-settings: "SOFT" 100; }
 .ct-body { margin-top: 20px; max-width: 46ch; font-size: var(--s-4); color: var(--ink-dim); }
 .lines { margin-top: 32px; border-top: 1.5px solid var(--ink); }
 .cline { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--rule); }

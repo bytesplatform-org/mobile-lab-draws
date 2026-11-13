@@ -2,7 +2,6 @@ import type { CSSProperties, ReactNode } from "react";
 import { treatment, type IconName } from "@/lib/content/site";
 import ArcBg from "@/components/site/ArcBg";
 import ScrubText from "@/components/site/ScrubText";
-import { SheetLabel } from "@/components/site/SheetHead";
 import { Arrow } from "@/components/site/Icons";
 import TreatmentFlow from "./TreatmentFlow";
 
@@ -40,7 +39,7 @@ export default function Treatment() {
       <div className="wrap" data-parallax>
         <div className="tr-top">
           <div className="tr-copy">
-            <SheetLabel as="h2" index={treatment.index} id="treatment-title">{treatment.label}</SheetLabel>
+            <h2 className="sr-only" id="treatment-title">{treatment.label}</h2>
             <ScrubText className="tr-body" text={treatment.body} lit={treatment.facilities} />
           </div>
           <ul className="tr-fac" aria-hidden="true">

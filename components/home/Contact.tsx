@@ -2,7 +2,6 @@ import type { CSSProperties } from "react";
 import { business, contact } from "@/lib/content/site";
 import ArcBg from "@/components/site/ArcBg";
 import CopyButton from "@/components/site/CopyButton";
-import { SheetLabel } from "@/components/site/SheetHead";
 import { Pin } from "@/components/site/Icons";
 import AppointmentForm from "./AppointmentForm";
 
@@ -18,8 +17,8 @@ export default function Contact() {
       <div className="wrap">
         <div className="contact">
           <div>
-            <SheetLabel index={contact.index}>{contact.sub}</SheetLabel>
             <h2 className="h-xl" id="contact-title" data-reveal="lines">{contact.heading}</h2>
+            <p className="ct-sub" data-reveal="settle">{contact.sub}</p>
             <p className="ct-body" data-reveal="settle">{contact.body}</p>
             <div className="lines" data-reveal="settle" style={{ "--i": 1 } as CSSProperties}>
               <div className="cline">

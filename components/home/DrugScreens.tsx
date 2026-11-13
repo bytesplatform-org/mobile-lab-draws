@@ -1,7 +1,6 @@
 import { Fragment } from "react";
 import { drugScreens } from "@/lib/content/site";
 import ArcBg from "@/components/site/ArcBg";
-import { SheetLabel } from "@/components/site/SheetHead";
 import DrugStage from "./drug/DrugStage";
 import Callouts from "./drug/Callouts";
 import FlowCloud from "./drug/FlowCloud";
@@ -43,7 +42,6 @@ export default function DrugScreens() {
       <ArcBg tone="night" />
       <DrugStage>
         <div className="wrap ds-wrap">
-          <SheetLabel index={drugScreens.index}>{drugScreens.label}</SheetLabel>
           <h2 className="ds-title" id="drugs-title">
             {drugScreens.title.split(" ").map((w, i) => (
               <Fragment key={i}>

@@ -189,8 +189,6 @@ export type Tube = { text: string; cap: Cap };
 
 export const services = {
   id: "services",
-  index: "01",
-  label: "SERVICE",
   lead: "All services available by appointment only.",
   concierge: "Concierge testing services for our private and celebrity Customer as well as our customers that enjoy the convenience of being serviced in their own home.",
   /** Words of the concierge line that light in teal as they're read. */
@@ -220,9 +218,6 @@ export type ShapeKey = "cup" | "shield" | "swab" | "breath" | "stopwatch" | "sal
 
 export const drugScreens = {
   id: "drug-screens",
-  index: "02",
-  /** Structural label, from the title's own words. */
-  label: "Drug Screen",
   title: "DOT & NON DOT Drug Screen",
   hours: "24-hour service available by appointment",
   soon: "COMING SOON",
@@ -251,8 +246,7 @@ export type IconName = "flask" | "shield" | "swab" | "helix" | "van" | "strip" |
 
 export const treatment = {
   id: "treatment",
-  index: "03",
-  /** Structural label, after the H1's own words. */
+  /** The section's heading for screen readers (it has none on the page), after the H1's own words. */
   label: "Addiction treatment centers",
   body: "We provide professional laboratory and screening support for Detox, Residential Care, MAT programs, Addiction Treatment Centers, Behavioral Health Practices, Psychiatric Providers, and Outpatient Facilities.",
   facilities: [
@@ -310,9 +304,6 @@ export type BookItem = {
 
 export const book = {
   id: "book",
-  index: "04",
-  /** Structural: the nav's name for this section. */
-  kicker: "Book",
   label: "All Services",
   tabs: [
     "All Services",
@@ -424,7 +415,6 @@ export const book = {
 
 export const coverage = {
   id: "coverage",
-  index: "05",
   headline: "Drug screening & mobile lab work covering all South, GA",
   radius: "Specimens pick up or drop off: 30-mile radius",
   pin: "Fayetteville",
@@ -491,7 +481,6 @@ export const gallery = {
 
 export const contact = {
   id: "contact",
-  index: "06",
   heading: "Contact Us",
   sub: "By appointments Only",
   body: "We are true to our customers, please make an appointment for service. Be sure to provide your name, phone number and the service that's being requested. Thank you",

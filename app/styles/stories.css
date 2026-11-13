@@ -19,7 +19,6 @@
    a two-column list of tubes and the insurance note. Story (.is-story, set by
    ServicesStage at desktop widths with motion): one pinned screen. */
 .sv-wrap { display: grid; gap: 30px; }
-.sv-kicker .sheet-label { margin-bottom: 0; }
 .sv-kicker-lead { display: none; }
 .sv-lead { font-family: var(--f-display); font-weight: 400; font-size: clamp(2.6rem, 6.4vw, 5.8rem); line-height: 0.98; letter-spacing: -0.025em; max-width: 15ch; font-variation-settings: "SOFT" 50; }
 .sv-lw-mask { display: inline-block; overflow: hidden; vertical-align: bottom; padding: 0.06em 0 0.16em; margin: -0.06em 0 -0.16em; }
@@ -55,7 +54,8 @@ html.motion .services:has(.is-story) { padding: 0; }
 .is-story .sv-inner { height: 100%; }
 .is-story .sv-wrap { position: relative; display: block; height: 100%; max-width: none; padding: 0; }
 .is-story .sv-kicker { position: absolute; z-index: 4; top: calc(var(--nav-h) + 26px); left: var(--gl); right: var(--gr); display: flex; align-items: baseline; justify-content: space-between; gap: 24px; }
-.is-story .sv-kicker-lead { display: block; font-family: var(--f-display); font-size: clamp(1.3rem, 1.9vw, 1.8rem); line-height: 1.1; text-align: right; font-variation-settings: "SOFT" 50; }
+.is-story .sv-kicker-lead { display: block; font-family: var(--f-display); font-size: clamp(1.3rem, 1.9vw, 1.8rem); line-height: 1.1; font-variation-settings: "SOFT" 50; }
+.sv-kicker-lead::after { content: ""; display: block; width: 56px; height: 2px; margin-top: 12px; background: var(--teal-ink); }
 .is-story .sv-lead { position: absolute; inset: 0; z-index: 3; display: flex; flex-wrap: wrap; align-content: center; justify-content: center; column-gap: 0.24em; padding: 0 6vw; max-width: none; text-align: center; font-size: clamp(3.2rem, 8.6vw, 9.6rem); line-height: 0.96; pointer-events: none; }
 .is-story .sv-concierge { position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center; max-width: none; padding: 0 max(8vw, calc((100vw - 1060px) / 2)); text-align: center; font-size: clamp(1.9rem, 3.5vw, 3.4rem); line-height: 1.16; pointer-events: none; }
 .is-story .sv-concierge { flex-wrap: wrap; column-gap: 0.26em; align-content: center; }
@@ -152,9 +152,8 @@ html.motion .drugs:has(.is-story) { padding-bottom: 0; padding-top: var(--arc-de
 .is-story .ds-inner, .is-story .ds-wrap { height: 100%; }
 .is-story .ds-wrap { max-width: none; padding: 0; }
 .is-story .ds-flow { display: none; }
-.is-story > .ds-inner > .ds-wrap > .sheet-label { position: absolute; top: calc(var(--nav-h) + 24px); left: var(--gl); z-index: 4; }
 .is-story .ds-title { position: absolute; inset: 0; z-index: 3; display: flex; flex-wrap: wrap; align-content: center; justify-content: center; column-gap: 0.24em; max-width: none; padding: 0 6vw; text-align: center; font-size: clamp(3.4rem, 9.6vw, 10.4rem); pointer-events: none; }
-.is-story .ds-kicker { display: block; position: absolute; z-index: 4; top: calc(var(--nav-h) + 50px); left: var(--gl); }
+.is-story .ds-kicker { display: block; position: absolute; z-index: 4; top: calc(var(--nav-h) + 30px); left: var(--gl); }
 .ds-kicker p { font-family: var(--f-display); font-size: clamp(1.3rem, 1.9vw, 1.8rem); line-height: 1; }
 .ds-kicker i { display: block; width: 56px; height: 2px; margin-top: 12px; background: var(--teal); }
 .is-story .ds-hours { position: absolute; z-index: 4; top: calc(var(--nav-h) + 30px); right: var(--gr); margin: 0; }
@@ -203,7 +202,6 @@ html.motion .drugs:has(.is-story) { padding-bottom: 0; padding-top: var(--arc-de
 .book { color: var(--line); }
 .bk-inner { position: relative; }
 .bk-top { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 48px; align-items: end; margin-bottom: 30px; }
-.bk-head .sheet-label { margin-bottom: 14px; }
 .bk-readout { border-top: 1px solid var(--line-faint); padding-top: 14px; }
 .bk-time { display: flex; align-items: baseline; gap: 12px; font-family: var(--f-display); font-size: clamp(2.4rem, 4vw, 3.8rem); line-height: 1; font-variant-numeric: tabular-nums; color: var(--teal); }
 .bk-time .mono { color: var(--line-dim); }

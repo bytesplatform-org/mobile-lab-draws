@@ -1,6 +1,5 @@
 import { Fragment, type CSSProperties } from "react";
 import { services } from "@/lib/content/site";
-import { SheetLabel } from "@/components/site/SheetHead";
 import ServicesStage from "./ServicesStage";
 import Tube from "./Tube";
 
@@ -31,19 +30,18 @@ export default function Services() {
     <section className="sheet paper services" id={services.id} data-sheet={services.id} data-tone="paper" aria-labelledby="services-title">
       <ServicesStage>
         <div className="wrap sv-wrap">
-          <div className="sv-kicker" data-sv-kicker>
-            <SheetLabel as="h2" index={services.index} id="services-title">{services.label}</SheetLabel>
-            <p className="sv-kicker-lead" aria-hidden="true">{services.lead}</p>
+          <div className="sv-kicker" data-sv-kicker aria-hidden="true">
+            <p className="sv-kicker-lead">{services.lead}</p>
           </div>
 
-          <p className="sv-lead" data-sv-lead>
+          <h2 className="sv-lead" id="services-title" data-sv-lead>
             {services.lead.split(" ").map((w, i) => (
               <Fragment key={i}>
                 {i > 0 && " "}
                 <span className="sv-lw-mask"><span className="sv-lw" data-sv-lw>{w}</span></span>
               </Fragment>
             ))}
-          </p>
+          </h2>
 
           <p className="sv-concierge" data-sv-concierge>
             {conciergeWords.map((w, i) => (

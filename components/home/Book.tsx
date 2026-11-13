@@ -1,7 +1,6 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
 import { book } from "@/lib/content/site";
-import { SheetLabel } from "@/components/site/SheetHead";
 import { Phone } from "@/components/site/Icons";
 import BookRow from "./BookRow";
 import BookStory from "./BookStory";
@@ -21,7 +20,6 @@ export default function Book() {
       <BookStory
         head={
           <div className="bk-head">
-            <SheetLabel index={book.index}>{book.kicker}</SheetLabel>
             <h2 className="h-lg" id="book-title" data-reveal="lines">{book.label}</h2>
           </div>
         }

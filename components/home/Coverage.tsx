@@ -2,7 +2,6 @@ import type { CSSProperties } from "react";
 import { business, coverage } from "@/lib/content/site";
 import ArcBg from "@/components/site/ArcBg";
 import CopyButton from "@/components/site/CopyButton";
-import { SheetLabel } from "@/components/site/SheetHead";
 import RadiusMap from "./coverage/RadiusMap";
 import CredentialSeal from "./coverage/CredentialSeal";
 
@@ -23,7 +22,6 @@ export default function Coverage() {
             <RadiusMap pin={coverage.pin} ring={coverage.ring} />
           </figure>
           <div className="cv-copy">
-            <SheetLabel index={coverage.index}>{coverage.ring}</SheetLabel>
             <h2 className="h-xl" id="coverage-title" data-reveal="lines">{coverage.headline}</h2>
             <p className="cv-radius" data-reveal="settle" style={{ "--i": 1 } as CSSProperties}>
               <span className="cap-dot" data-cap="grey" aria-hidden="true" />
